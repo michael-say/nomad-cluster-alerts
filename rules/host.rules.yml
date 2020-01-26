@@ -6,24 +6,24 @@ groups:
         labels:
           severity: warning
         annotations:
-          description: "Host {{ $labels.hostname }} in datacenter {{ $labels.datacenter }} {{ $labels.cpu }} usage is at {{ humanize $value }}%."
-          identifier: "CPU alert for host {{ $labels.hostname }} [{{ $labels.datacenter }}]"
+          description: "Host {{ $labels.hostname }} {{ $labels.cpu }} usage is at {{ humanize $value }}%."
+          identifier: "CPU alert in {{ $labels.datacenter }}"
       - alert: host_memory_usage
         expr: label_replace(nomad_client_host_memory_used / nomad_client_host_memory_total * 100, "hostname", "$1", "instance", "(.*):.*") > 80
         for: 5m
         labels:
           severity: warning
         annotations:
-          description: 'Host {{ $labels.hostname }} in datacenter {{ $labels.datacenter }} memory usage is at {{ humanize $value }}%.'
-          identifier: 'Memory alert for host {{ $labels.node_name }} [{{ $labels.datacenter }}]'
+          description: 'Host {{ $labels.hostname }} memory usage is at {{ humanize $value }}%.'
+          identifier: 'Memory alert in {{ $labels.datacenter }}'
       - alert: host_disk_usage
         expr: label_replace(nomad_client_host_disk_used_percent,  "hostname", "$1", "instance", "(.*):.*") > 80
         for: 5m
         labels:
           severity: warning
         annotations:
-          description: "Host {{ $labels.hostname }} in datacenter {{ $labels.datacenter }} disk usage is at {{ humanize $value }}%."
-          identifier: "Disk alert for host {{ $labels.hostname }} [{{ $labels.datacenter }}]"
+          description: "Host {{ $labels.hostname }} disk usage is at {{ humanize $value }}%."
+          identifier: "Disk alert in {{ $labels.datacenter }}"
       - alert: service_down
         expr: label_replace(up,  "hostname", "$1", "instance", "(.*):.*") == 0
         for: 2m
