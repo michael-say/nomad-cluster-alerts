@@ -1,0 +1,9 @@
+groups:
+  - name: task.rules.yml
+    rules:
+      - alert: task_high_cpu_usage_50
+        expr: label_replace(nomad_client_allocs_cpu_total_percent, "hostname", "$1", "instance", "(.*):.*") > 50
+        for: 1m
+        annotations:
+          description: "{{ $labels.task }} on {{ $labels.hostname }} CPU usage is at {{ humanize $value }}%."
+          identifier: "CPU alert for task {{ $labels.task }} on {{ $labels.hostname }}"
